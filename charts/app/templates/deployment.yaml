@@ -38,21 +38,22 @@ spec:
       {{ end }}
       terminationGracePeriodSeconds: 30
       shareProcessNamespace: true
-      volumes:
-        - name: env-file
-          persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-ticketpeak-env
+#      volumes:
+#        - name: env-file
+#          persistentVolumeClaim:
+#            claimName: {{ .Release.Name }}-ticketpeak-env
       containers:
       - name: {{ .Values.app.service.name }}
         image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
-        volumeMounts:
-        - mountPath: "/var/www/html"
-          name: env-file
-          subPath: .env
+#        volumeMounts:
+#        - mountPath: "/var/www/html"
+#          name: env-file
+#          subPath: .env
         imagePullPolicy: Always
-        {{ if .Values.app.command }}
-        command: {{ .Values.app.command }}
-        {{- end }}
+        command:
+          - "/bin/bash"
+          - "-c"
+          - "aws s3 cp s3://149536470129-ticketpeak-env/{{ .Release.Namespace }}/.env /var/www/html/.env && composer install && apache2-foreground"
         ports:
           - containerPort: {{ .Values.app.pod.port }}
         {{ if .Values.app.is_network_service }}
