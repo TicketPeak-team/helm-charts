@@ -44,10 +44,10 @@ spec:
             claimName: {{ .Release.Name }}-ticketpeak-env
       containers:
         - image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
-          - volumeMounts:
-            - mountPath: "/var/www/html/.env"
-              name: env-file
-              subPath: { { .Release.Namespace } }
+          volumeMounts:
+          - mountPath: "/var/www/html/.env"
+            name: env-file
+            subPath: {{ .Release.Namespace }}
           imagePullPolicy: Always
           name: {{ .Values.app.service.name }}
           {{ if .Values.app.command }}
