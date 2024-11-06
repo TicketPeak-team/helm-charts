@@ -38,7 +38,15 @@ spec:
       {{ end }}
       terminationGracePeriodSeconds: 30
       shareProcessNamespace: true
+      volumes:
+        - name: env-file
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-ticketpeak-env
       containers:
+        - volumeMounts:
+            - mountPath: "/var/www/html/.env"
+              name: env-file
+              subPath: {{ .Release.Namespace }}
         - image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
           imagePullPolicy: Always
           name: {{ .Values.app.service.name }}
@@ -73,9 +81,6 @@ spec:
             - secretRef:
                 name: {{ .Values.app.secretName }}
             {{- range .Values.app.database_secret_names_to_use }}
-            - secretRef:
-                name: {{ . }}
-            {{- end }}
           securityContext:
             capabilities:
               drop:

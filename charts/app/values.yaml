@@ -29,3 +29,5 @@ iam:
   service_account_name: ""
 
 stack_name: ""
+
+env_bucket_name: ""
