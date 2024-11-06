@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.service.name }}
+spec:
+  replicas: {{ .Values.app.pod.initialCount }}
+  progressDeadlineSeconds: 600
+  selector:
+    matchLabels:
+      app: {{ .Values.app.service.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.service.name }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - {{ .Values.app.service.name }}
+              topologyKey: "kubernetes.io/hostname"
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 50
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - {{ .Values.app.service.name }}
+                topologyKey: "topology.kubernetes.io/zone"
+      {{- if .Values.iam.service_account_name }}
+      serviceAccountName:  {{ .Values.iam.service_account_name }}
+      {{ end }}
+      terminationGracePeriodSeconds: 30
+      shareProcessNamespace: true
+      containers:
+        - image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
+          imagePullPolicy: Always
+          name: {{ .Values.app.service.name }}
+          {{ if .Values.app.command }}
+          command: {{ .Values.app.command }}
+          {{- end }}
+          ports:
+            - containerPort: {{ .Values.app.pod.port }}
+          {{ if .Values.app.is_network_service }}
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.app.pod.healthCheckPath }}
+              port: {{ .Values.app.pod.port }}
+            timeoutSeconds: 10
+            initialDelaySeconds: 10
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.app.pod.healthCheckPath }}
+              port: {{ .Values.app.pod.port }}
+            timeoutSeconds: 10
+            initialDelaySeconds: 10
+            successThreshold: 2
+          {{ end }}
+          resources:
+            requests:
+              memory: {{ .Values.app.resources.requests.memory }}
+              cpu: {{ .Values.app.resources.requests.cpu }}
+            limits:
+              memory: {{ .Values.app.resources.limits.memory }}
+              cpu: {{ .Values.app.resources.limits.cpu }}
+          envFrom:
+            - secretRef:
+                name: {{ .Values.app.secretName }}
+            {{- range .Values.app.database_secret_names_to_use }}
+            - secretRef:
+                name: {{ . }}
+            {{- end }}
+          securityContext:
+            capabilities:
+              drop:
+                - all
+      restartPolicy: Always
+status: { }

@@ -1,0 +1,31 @@
+app:
+  is_network_service: false
+  command:
+  pod:
+    initialCount: 2
+    port:
+    healthCheckPath:
+  service:
+    name:
+    protocol: TCP
+    port:
+  resources:
+    requests:
+      memory: "256Mi"
+      cpu: "125m"
+    limits:
+      memory: "256Mi"
+      cpu: "125m"
+  secretName:
+  database_secret_names_to_use:
+
+image:
+  name:
+  tag:
+  url:
+
+iam:
+  service_account_role: ""
+  service_account_name: ""
+
+stack_name: ""
