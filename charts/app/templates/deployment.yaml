@@ -80,7 +80,6 @@ spec:
           envFrom:
             - secretRef:
                 name: {{ .Values.app.secretName }}
-            {{- range .Values.app.database_secret_names_to_use }}
           securityContext:
             capabilities:
               drop:
