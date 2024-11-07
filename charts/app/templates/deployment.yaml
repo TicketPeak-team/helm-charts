@@ -38,16 +38,16 @@ spec:
       {{ end }}
       terminationGracePeriodSeconds: 30
       shareProcessNamespace: true
-      volumes:
-        - name: efs
-          persistentVolumeClaim:
-            claimName: efs-pv-{{ .Release.Namespace }}
+#      volumes:
+#        - name: efs
+#          persistentVolumeClaim:
+#            claimName: efs-pv-{{ .Release.Namespace }}
       containers:
       - name: {{ .Values.app.service.name }}
         image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
-        volumeMounts:
-          - name: efs
-            mountPath: /var/www/html/storage2
+#        volumeMounts:
+#          - name: efs
+#            mountPath: /var/www/html/storage2
         imagePullPolicy: Always
         command:
           - "/bin/bash"
