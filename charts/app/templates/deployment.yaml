@@ -52,7 +52,7 @@ spec:
         command:
           - "/bin/bash"
           - "-c"
-          - "aws s3 cp s3://149536470129-ticketpeak-env/{{ .Release.Namespace }}/.env /var/www/html/.env && composer install && echo hello && apache2-foreground"
+          - "aws s3 cp s3://149536470129-ticketpeak-env/{{ .Release.Namespace }}/.env /var/www/html/.env && composer install && sleep 10000000 && apache2-foreground"
         ports:
           - containerPort: {{ .Values.app.pod.port }}
         {{ if .Values.app.is_network_service }}
