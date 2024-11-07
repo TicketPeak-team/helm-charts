@@ -3,12 +3,12 @@ entries:
   app:
   - apiVersion: v2
     appVersion: 1.0.0
-    created: "2024-11-07T07:03:51.090763-06:00"
+    created: "2024-11-07T10:20:18.880123-06:00"
     description: The helm chart used to deploy generic TicketPeak applications
-    digest: 4ccc7c00d964ba1f24f49bd6393aa1024504d496bec25a581754cbcf40655bde
+    digest: 4002ab4a19e1280ebd8675565f22d1eeb394828cf546a24ac704ac1e14543c57
     name: app
     type: application
     urls:
     - packages/app-0.1.0.tgz
     version: 0.1.0
-generated: "2024-11-07T07:03:51.090486-06:00"
+generated: "2024-11-07T10:20:18.877386-06:00"

@@ -31,3 +31,6 @@ iam:
 stack_name: ""
 
 env_bucket_name: ""
+
+efs:
+  file_system_id: ""
