@@ -52,7 +52,7 @@ spec:
         command:
           - "/bin/bash"
           - "-c"
-          - "aws s3 cp s3://149536470129-ticketpeak-env/{{ .Release.Namespace }}/.env /var/www/html/.env && php artisan storage:link && sleep 10000 && /var/www/html/startup.sh"
+          - "aws s3 cp s3://149536470129-ticketpeak-env/{{ .Release.Namespace }}/.env /var/www/html/.env && sleep 10000 && php artisan storage:link && /var/www/html/startup.sh"
         ports:
           - containerPort: {{ .Values.app.pod.port }}
         {{ if .Values.app.is_network_service }}
