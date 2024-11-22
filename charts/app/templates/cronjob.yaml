@@ -28,7 +28,7 @@ spec:
                           values:
                             - {{ .Values.app.service.name }}
                     topologyKey: "topology.kubernetes.io/zone"
-          {{ - if .Values.iam.service_account_name }}
+          {{ if .Values.iam.service_account_name }}
           serviceAccountName: {{ .Values.iam.service_account_name }}
           {{ end }}
           terminationGracePeriodSeconds: 30
