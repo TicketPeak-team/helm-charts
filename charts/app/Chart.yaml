@@ -3,4 +3,4 @@ appVersion: 1.0.0
 description: The helm chart used to deploy generic TicketPeak applications
 name: app
 type: application
-version: 0.1.7
+version: 0.1.8

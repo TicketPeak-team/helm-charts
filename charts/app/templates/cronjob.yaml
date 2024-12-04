@@ -1,33 +1,13 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ .Values.app.service.name }}-job
+  name: jobs
 spec:
   schedule: "* * * * *"
   jobTemplate:
     spec:
       template:
         spec:
-          affinity:
-            podAntiAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                - labelSelector:
-                    matchExpressions:
-                      - key: app
-                        operator: In
-                        values:
-                          - {{ .Values.app.service.name }}
-                  topologyKey: "kubernetes.io/hostname"
-              preferredDuringSchedulingIgnoredDuringExecution:
-                - weight: 50
-                  podAffinityTerm:
-                    labelSelector:
-                      matchExpressions:
-                        - key: app
-                          operator: In
-                          values:
-                            - {{ .Values.app.service.name }}
-                    topologyKey: "topology.kubernetes.io/zone"
           {{ if .Values.iam.service_account_name }}
           serviceAccountName: {{ .Values.iam.service_account_name }}
           {{ end }}
@@ -38,7 +18,7 @@ spec:
               persistentVolumeClaim:
                 claimName: efs-pv-{{ .Release.Namespace }}
           containers:
-            - name: {{ .Values.app.service.name }}-job
+            - name: jobs
               image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
               volumeMounts:
                 - name: efs
