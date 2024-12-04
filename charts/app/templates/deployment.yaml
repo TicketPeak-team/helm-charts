@@ -1,17 +1,17 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.app.service.name }}
+  name: {{ .Values.app.service.name }}-webapp
 spec:
   replicas: {{ .Values.app.pod.initialCount }}
   progressDeadlineSeconds: 600
   selector:
     matchLabels:
-      app: {{ .Values.app.service.name }}
+      app: {{ .Values.app.service.name }}-webapp
   template:
     metadata:
       labels:
-        app: {{ .Values.app.service.name }}
+        app: {{ .Values.app.service.name }}-webapp
     spec:
       affinity:
         podAntiAffinity:
@@ -21,7 +21,7 @@ spec:
                   - key: app
                     operator: In
                     values:
-                      - {{ .Values.app.service.name }}
+                      - {{ .Values.app.service.name }}-webapp
               topologyKey: "kubernetes.io/hostname"
           preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 50
@@ -31,7 +31,7 @@ spec:
                     - key: app
                       operator: In
                       values:
-                        - {{ .Values.app.service.name }}
+                        - {{ .Values.app.service.name }}-webapp
                 topologyKey: "topology.kubernetes.io/zone"
       {{- if .Values.iam.service_account_name }}
       serviceAccountName:  {{ .Values.iam.service_account_name }}
@@ -43,7 +43,7 @@ spec:
           persistentVolumeClaim:
             claimName: efs-pv-{{ .Release.Namespace }}
       containers:
-      - name: {{ .Values.app.service.name }}
+      - name: {{ .Values.app.service.name }}-webapp
         image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
         volumeMounts:
           - name: efs
