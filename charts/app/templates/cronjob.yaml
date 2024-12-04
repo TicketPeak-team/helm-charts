@@ -1,7 +1,7 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: jobs
+  name: {{ .Values.app.service.name }}-job
 spec:
   schedule: "* * * * *"
   jobTemplate:
@@ -18,7 +18,7 @@ spec:
               persistentVolumeClaim:
                 claimName: efs-pv-{{ .Release.Namespace }}
           containers:
-            - name: jobs
+            - name: {{ .Values.app.service.name }}-job
               image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
               volumeMounts:
                 - name: efs
