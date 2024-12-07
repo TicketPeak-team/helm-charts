@@ -52,7 +52,7 @@ spec:
           - name: efs
             mountPath: /var/www/html/storage
           - name: webapp-ebs-{{ .Release.Namespace }}
-            mountPath: /var/www/html/storage
+            mountPath: /var/www/html/storage2
         imagePullPolicy: Always
         command:
           - "/bin/bash"
