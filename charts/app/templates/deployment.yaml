@@ -42,11 +42,16 @@ spec:
         - name: efs
           persistentVolumeClaim:
             claimName: efs-pv-{{ .Release.Namespace }}
+        - name: webapp-ebs-{{ .Release.Namespace }}
+          persistentVolumeClaim:
+            claimName: webapp-ebs-{{ .Release.Namespace }}
       containers:
       - name: {{ .Values.app.service.name }}-webapp
         image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
         volumeMounts:
           - name: efs
+            mountPath: /var/www/html/storage
+          - name: webapp-ebs-{{ .Release.Namespace }}
             mountPath: /var/www/html/storage
         imagePullPolicy: Always
         command:
