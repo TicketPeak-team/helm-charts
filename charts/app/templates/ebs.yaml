@@ -1,20 +1,24 @@
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
+apiVersion: v1
+kind: PersistentVolume
 metadata:
   name: webapp-ebs-{{ .Release.Namespace }}
-  annotations:
-    storageclass.kubernetes.io/is-default-class: "true"
-provisioner: ebs.csi.eks.amazonaws.com
-volumeBindingMode: Immediate
-allowedTopologies:
-  - matchLabelExpressions:
-      - key: topology.kubernetes.io/zone
-        values:
-          - us-east-1a
-parameters:
-  type: gp3
-  encrypted: "true"
-
+spec:
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 300Gi
+  csi:
+    driver: ebs.csi.aws.com
+    fsType: ext4
+    volumeHandle: {{ .Values.app.volume_id }}
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: topology.kubernetes.io/zone
+              operator: In
+              values:
+                - us-east-1a
 
 ---
 
@@ -23,9 +27,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: webapp-ebs-{{ .Release.Namespace }}
 spec:
+  storageClassName: ""
+  volumeName: webapp-ebs-{{ .Release.Namespace }}
   accessModes:
-    - ReadWriteMany
-  storageClassName: webapp-ebs-{{ .Release.Namespace }}
+    - ReadWriteOnce
   resources:
     requests:
       storage: 300Gi
