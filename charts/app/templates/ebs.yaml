@@ -25,7 +25,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: webapp-ebs-{{ .Release.Namespace }}
+  name: webapp-ebs-{{ .Release.Namespace }}-pvc
 spec:
   storageClassName: ""
   volumeName: webapp-ebs-{{ .Release.Namespace }}
