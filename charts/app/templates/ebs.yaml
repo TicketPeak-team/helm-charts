@@ -5,7 +5,7 @@ metadata:
   annotations:
     storageclass.kubernetes.io/is-default-class: "true"
 provisioner: ebs.csi.eks.amazonaws.com
-volumeBindingMode: WaitForFirstConsumer
+volumeBindingMode: Immediate
 allowedTopologies:
   - matchLabelExpressions:
       - key: topology.kubernetes.io/zone
