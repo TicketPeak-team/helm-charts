@@ -39,6 +39,8 @@ spec:
       terminationGracePeriodSeconds: 30
       shareProcessNamespace: true
       volumes:
+        - name: apache-logs
+          emptyDir: { }
         - name: efs
           persistentVolumeClaim:
             claimName: efs-pv-{{ .Release.Namespace }}
@@ -48,6 +50,8 @@ spec:
         volumeMounts:
           - name: efs
             mountPath: /var/www/html/storage
+          - name: apache-logs
+            mountPath: /var/log/apache
         imagePullPolicy: Always
         command:
           - "/bin/bash"
@@ -84,5 +88,25 @@ spec:
           capabilities:
             drop:
               - all
+      - name: fluent-bit-sidecar
+        image: amazon/aws-for-fluent-bit:latest
+        env:
+          - name: AWS_REGION
+            value: "us-east-1"
+        volumeMounts:
+          - name: apache-logs
+            mountPath: /var/log/apache
+        command:
+          - /fluent-bit/bin/fluent-bit
+          - -i
+          - tail
+          - -p
+          - path=/var/log/apache/access_log
+          - -o
+          - cloudwatch_logs
+          - -p
+          - region=us-east-1
+          - -p
+          - log_group_name=/aws/eks/{{ .Release.Namespace }}/apache/access_logs
       restartPolicy: Always
 status: { }
