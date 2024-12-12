@@ -118,7 +118,7 @@ spec:
           - -p
           - log_group_name=/aws/eks/{{ .Release.Namespace }}/
           - -p
-          - log_stream_prefix=$HOSTNAME
+          - log_stream_prefix=${HOSTNAME}
           - -p
           - auto_create_group=true
           - -R
