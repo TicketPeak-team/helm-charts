@@ -120,7 +120,7 @@ spec:
           - auto_create_group=true
           - -p
           - parser=apache
-          - -c
+          - -P
           - /fluent-bit/etc/parsers.conf
       restartPolicy: Always
 status: { }
