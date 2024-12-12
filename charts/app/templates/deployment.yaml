@@ -121,7 +121,7 @@ spec:
           - log_stream_prefix=$HOSTNAME
           - -p
           - auto_create_group=true
-          - -P
+          - -R
           - /fluent-bit/etc/parsers.conf
       restartPolicy: Always
 status: { }
