@@ -111,11 +111,13 @@ spec:
           - path=/var/log/apache/access_log
           - -p
           - parser=apache
+          - -p
           - tag=apache.access
           - -i
           - tail
           - -p
           - path=/var/log/apache/error_log
+          - -p
           - tag=apache.error
           - -o
           - cloudwatch_logs
