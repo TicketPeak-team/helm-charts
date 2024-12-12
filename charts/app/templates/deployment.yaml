@@ -112,5 +112,7 @@ spec:
           - log_stream_prefix=apache-access
           - -p
           - auto_create_group=true
+          - -p
+          - parser=apache
       restartPolicy: Always
 status: { }
