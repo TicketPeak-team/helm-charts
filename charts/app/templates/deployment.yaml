@@ -42,13 +42,6 @@ spec:
         - name: efs
           persistentVolumeClaim:
             claimName: efs-pv-{{ .Release.Namespace }}
-      tolerations:
-        - key: "ticketpeak/node_type"
-          operator: "Equal"
-          value: "{{ .Release.Namespace }}"
-          effect: "NoSchedule"
-      nodeSelector:
-        ticketpeak/node_type: "{{ .Release.Namespace }}"
       containers:
       - name: {{ .Values.app.service.name }}-webapp
         image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
