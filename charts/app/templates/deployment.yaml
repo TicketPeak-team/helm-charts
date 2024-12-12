@@ -44,6 +44,9 @@ spec:
         - name: efs
           persistentVolumeClaim:
             claimName: efs-pv-{{ .Release.Namespace }}
+        - name: parsers
+          configMap:
+            name: fluent-bit-parsers
       containers:
       - name: {{ .Values.app.service.name }}-webapp
         image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
@@ -96,6 +99,9 @@ spec:
         volumeMounts:
           - name: apache-logs
             mountPath: /var/log/apache
+          - name: parsers
+            mountPath: /fluent-bit/etc/parsers.conf
+            subPath: parsers.conf
         command:
           - /fluent-bit/bin/fluent-bit
           - -i
@@ -109,10 +115,12 @@ spec:
           - -p
           - log_group_name=/aws/eks/{{ .Release.Namespace }}/
           - -p
-          - log_stream_prefix=apache-access
+          - log_stream_prefix=$HOSTNAME
           - -p
           - auto_create_group=true
           - -p
-          - log_format=apache
+          - parser=apache
+          - -c
+          - /fluent-bit/etc/parsers.conf
       restartPolicy: Always
 status: { }
