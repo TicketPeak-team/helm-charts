@@ -107,6 +107,8 @@ spec:
           - -p
           - region=us-east-1
           - -p
-          - log_group_name=/aws/eks/{{ .Release.Namespace }}/apache/access_logs
+          - log_group_name=/aws/eks/{{ .Release.Namespace }}/
+          - -p
+          - log_stream_prefix=apache-access
       restartPolicy: Always
 status: { }
