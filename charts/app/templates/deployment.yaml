@@ -104,8 +104,8 @@ spec:
             subPath: parsers.conf
         command:
           - /fluent-bit/bin/fluent-bit
-          - -i
           - -v
+          - -i
           - tail
           - -p
           - path=/var/log/apache/access_log
