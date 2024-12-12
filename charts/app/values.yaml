@@ -3,7 +3,7 @@ app:
   is_network_service: false
   command:
   pod:
-    initialCount: 2
+    initialCount: 3
     port:
     healthCheckPath:
   service:
