@@ -113,6 +113,6 @@ spec:
           - -p
           - auto_create_group=true
           - -p
-          - parser=apache
+          - log_format=apache
       restartPolicy: Always
 status: { }
