@@ -108,6 +108,10 @@ spec:
           - tail
           - -p
           - path=/var/log/apache/access_log
+          - -p
+          - parser=apache
+          - -P
+          - /fluent-bit/etc/parsers.conf
           - -o
           - cloudwatch_logs
           - -p
@@ -118,9 +122,5 @@ spec:
           - log_stream_prefix=$HOSTNAME
           - -p
           - auto_create_group=true
-          - -p
-          - parser=apache
-          - -P
-          - /fluent-bit/etc/parsers.conf
       restartPolicy: Always
 status: { }
