@@ -110,5 +110,7 @@ spec:
           - log_group_name=/aws/eks/{{ .Release.Namespace }}/
           - -p
           - log_stream_prefix=apache-access
+          - -p
+          - auto_create_group=true
       restartPolicy: Always
 status: { }
