@@ -64,7 +64,7 @@ spec:
             mountPath: /var/www/html/storage
           - name: apache-logs
             mountPath: /var/log/apache
-          - mountPath: /var/lock
+          - mountPath: /run/lock
             name: var-lock
         imagePullPolicy: Always
         command:
