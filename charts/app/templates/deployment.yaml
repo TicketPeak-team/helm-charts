@@ -109,6 +109,11 @@ spec:
           - name: parsers
             mountPath: /fluent-bit/etc/parsers.conf
             subPath: parsers.conf
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "250m"
         command:
           - /fluent-bit/bin/fluent-bit
           - -v
