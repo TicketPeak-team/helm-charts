@@ -47,8 +47,6 @@ spec:
         - name: parsers
           configMap:
             name: fluent-bit-parsers
-        - name: var-lock
-          emptyDir: { }
       nodeSelector:
         ticketpeak/node_type: {{ .Release.Namespace }}
       tolerations:
@@ -64,8 +62,6 @@ spec:
             mountPath: /var/www/html/storage
           - name: apache-logs
             mountPath: /var/log/apache
-          - mountPath: /run/lock
-            name: var-lock
         imagePullPolicy: Always
         command:
           - "/bin/bash"
