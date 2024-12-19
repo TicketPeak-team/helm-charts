@@ -53,6 +53,8 @@ spec:
             - secretRef:
                 name: {{ .Values.app.secretName }}
           securityContext:
-            fsGroup: 33
+            capabilities:
+              drop:
+                - all
       restartPolicy: Always
 status: { }

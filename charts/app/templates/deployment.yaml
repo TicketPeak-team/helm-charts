@@ -95,7 +95,9 @@ spec:
           - secretRef:
               name: {{ .Values.app.secretName }}
         securityContext:
-          fsGroup: 33
+          capabilities:
+            drop:
+              - all
       - name: fluent-bit-sidecar
         image: amazon/aws-for-fluent-bit:latest
         env:
