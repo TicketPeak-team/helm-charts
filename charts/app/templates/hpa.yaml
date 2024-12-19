@@ -7,6 +7,6 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: {{ .Values.app.service.name }}-webapp
-  minReplicas: 3
+  minReplicas: {{ .Values.app.pod.initialCount }}
   maxReplicas: 10
   targetCPUUtilizationPercentage: 50
