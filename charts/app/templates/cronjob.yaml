@@ -18,7 +18,7 @@ spec:
               persistentVolumeClaim:
                 claimName: efs-pv-{{ .Release.Namespace }}
           nodeSelector:
-            ticketpeak/node_type: { { .Release.Namespace } }
+            ticketpeak/node_type: {{ .Release.Namespace }}
           tolerations:
             - key: "ticketpeak/node_type"
               operator: "Equal"
