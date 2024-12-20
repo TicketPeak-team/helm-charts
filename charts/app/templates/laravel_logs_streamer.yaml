@@ -1,0 +1,68 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.service.name }}-log-streamer
+spec:
+  replicas: {{ .Values.app.pod.initialCount }}
+  progressDeadlineSeconds: 600
+  selector:
+    matchLabels:
+      app: {{ .Values.app.service.name }}-log-streamer
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.service.name }}-log-streamer
+    spec:
+      {{- if .Values.iam.service_account_name }}
+      serviceAccountName:  {{ .Values.iam.service_account_name }}
+      {{ end }}
+      terminationGracePeriodSeconds: 30
+      shareProcessNamespace: true
+      volumes:
+        - name: efs
+          persistentVolumeClaim:
+            claimName: efs-pv-{{ .Release.Namespace }}
+      nodeSelector:
+        ticketpeak/node_type: {{ .Release.Namespace }}
+      tolerations:
+        - key: "ticketpeak/node_type"
+          operator: "Equal"
+          value: "{{ .Release.Namespace }}"
+          effect: "NoSchedule"
+      containers:
+      - name: fluent-bit-laravel-log-streamer
+        image: amazon/aws-for-fluent-bit:latest
+        env:
+          - name: AWS_REGION
+            value: "us-east-1"
+        volumeMounts:
+          - name: efs
+            mountPath: /var/www/html/storage
+        resources:
+          requests:
+            cpu: "250m"
+          limits:
+            cpu: "250m"
+        command:
+          - /fluent-bit/bin/fluent-bit
+          - -v
+          - -i
+          - tail
+          - -p
+          - path=/var/www/html/storage/logs/laravel.log
+          - -p
+          - tag=laravel.log
+          - -o
+          - cloudwatch_logs
+          - -p
+          - region=us-east-1
+          - -p
+          - log_group_name=/aws/eks/{{ .Release.Namespace }}/
+          - -p
+          - log_stream_prefix=${HOSTNAME}
+          - -p
+          - auto_create_group=true
+          - -p
+          - Match=*
+      restartPolicy: Always
+status: { }
