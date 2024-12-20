@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ .Values.app.service.name }}-log-streamer
 spec:
-  replicas: {{ .Values.app.pod.initialCount }}
+  replicas: 1
   progressDeadlineSeconds: 600
   selector:
     matchLabels:
