@@ -52,6 +52,8 @@ spec:
           - path=/var/www/html/storage/logs/laravel.log
           - -p
           - tag=laravel.log
+          - -p
+          - refresh_interval=5
           - -o
           - cloudwatch_logs
           - -p
