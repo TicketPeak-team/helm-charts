@@ -54,6 +54,8 @@ spec:
           - tag=laravel.log
           - -p
           - refresh_interval=5
+          - -p
+          - inotify_watcher=false
           - -o
           - cloudwatch_logs
           - -p
