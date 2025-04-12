@@ -8,5 +8,5 @@ spec:
     kind: Deployment
     name: {{ .Values.app.service.name }}-webapp
   minReplicas: {{ .Values.app.pod.initialCount }}
-  maxReplicas: 10
+  maxReplicas: 15
   targetCPUUtilizationPercentage: 50
