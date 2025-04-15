@@ -4,7 +4,6 @@ metadata:
   name: {{ .Values.app.service.name }}
 spec:
   maxUnavailable: 1
-  minAvailable: {{ .Values.app.pod.initialCount }}
   selector:
     matchLabels:
       app: {{ .Values.app.service.name }}
