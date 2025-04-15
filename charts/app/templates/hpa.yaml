@@ -10,3 +10,4 @@ spec:
   minReplicas: {{ .Values.app.pod.initialCount }}
   maxReplicas: 15
   targetCPUUtilizationPercentage: 50
+  targetMemoryUtilizationPercentage: 50
