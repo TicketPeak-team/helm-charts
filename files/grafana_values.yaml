@@ -3,3 +3,9 @@ grafana:
   persistence:
     enabled: true
     size: 100Gi
+
+prometheus:
+  prometheusSpec:
+    podMonitorSelector:
+      matchLabels:
+        release: kube-prometheus-stack

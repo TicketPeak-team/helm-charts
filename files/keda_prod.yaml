@@ -1,0 +1,29 @@
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: production-scaler
+  namespace: production
+spec:
+  scaleTargetRef:
+    name: nginx
+  minReplicaCount: 3
+  maxReplicaCount: 10
+  pollingInterval: 5
+  cooldownPeriod: 900
+  triggers:
+    - type: cpu
+      metricType: Utilization
+      metadata:
+        value: "50"
+
+    - type: memory
+      metricType: Utilization
+      metadata:
+        value: "50"
+
+    - type: prometheus
+      metadata:
+        serverAddress: "http://grafana-kube-prometheus-st-prometheus.grafana.svc.cluster.local:9090"
+        query: |
+          sum(increase(traefik_service_requests_total{service=~"production-ticketpeak-app-production.*"}[1m]))
+        threshold: "150"
