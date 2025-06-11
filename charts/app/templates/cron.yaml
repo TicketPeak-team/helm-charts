@@ -44,10 +44,10 @@ spec:
             - containerPort: {{ .Values.app.pod.port }}
           resources:
             requests:
-              memory: 4096Mi
-              cpu: 1024m
+              memory: 1Gi
+              cpu: 500m
             limits:
-              memory: 4096Mi
+              memory: 4Gi
               cpu: 1024m
           envFrom:
             - secretRef:
