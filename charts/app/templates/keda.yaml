@@ -5,16 +5,20 @@ metadata:
 spec:
   scaleTargetRef:
     name: {{ .Values.app.service.name }}-webapp
-  minReplicaCount: 3
-  maxReplicaCount: 10
-  pollingInterval: 5
-  cooldownPeriod: 900
+  minReplicaCount: 5
+  maxReplicaCount: 7
+  pollingInterval: 30
+  cooldownPeriod: 180
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 180
+    scaleDown:
+      stabilizationWindowSeconds: 300
   triggers:
     - type: cpu
       metricType: Utilization
       metadata:
         value: "50"
-
     - type: memory
       metricType: Utilization
       metadata:
