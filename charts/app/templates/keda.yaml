@@ -19,10 +19,3 @@ spec:
       metricType: Utilization
       metadata:
         value: "50"
-
-    - type: prometheus
-      metadata:
-        serverAddress: "http://grafana-kube-prometheus-st-prometheus.grafana.svc.cluster.local:9090"
-        query: |
-          sum(increase(traefik_service_requests_total{service=~"production-ticketpeak-app-production.*"}[1m]))
-        threshold: "150"
