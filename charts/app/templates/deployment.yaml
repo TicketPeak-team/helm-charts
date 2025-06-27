@@ -47,6 +47,8 @@ spec:
         - name: parsers
           configMap:
             name: fluent-bit-parsers
+      securityContext:
+        fsGroup: 33
       nodeSelector:
         ticketpeak/node_type: {{ .Release.Namespace }}
       tolerations:
@@ -66,7 +68,7 @@ spec:
         command:
           - "/bin/bash"
           - "-c"
-          - "aws s3 cp s3://149536470129-ticketpeak-env/{{ .Release.Namespace }}/.env /var/www/html/.env && /var/www/html/startup.sh"
+          - "aws s3 cp s3://149536470129-ticketpeak-env/{{ .Release.Namespace }}/.env /var/www/html/.env && /usr/local/bin/startup.sh"
         ports:
           - containerPort: {{ .Values.app.pod.port }}
         {{ if .Values.app.is_network_service }}
