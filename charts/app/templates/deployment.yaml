@@ -40,7 +40,7 @@ spec:
       shareProcessNamespace: true
       volumes:
         - name: apache-logs
-          emptyDir: { }
+          emptyDir: {}
         - name: efs
           persistentVolumeClaim:
             claimName: efs-pv-{{ .Release.Namespace }}
@@ -71,21 +71,26 @@ spec:
           - "aws s3 cp s3://149536470129-ticketpeak-env/{{ .Release.Namespace }}/.env /var/www/html/.env && /usr/local/bin/startup.sh"
         ports:
           - containerPort: {{ .Values.app.pod.port }}
-        {{ if .Values.app.is_network_service }}
+        {{- if .Values.app.is_network_service }}
+        # --- Health Probes -------------------------------------------------
+        # Liveness probe hits /livez
         livenessProbe:
           httpGet:
-            path: {{ .Values.app.pod.healthCheckPath }}
+            path: /livez
             port: {{ .Values.app.pod.port }}
           timeoutSeconds: 10
           initialDelaySeconds: 15
+          periodSeconds: 10
+        # Readiness probe hits /readyz
         readinessProbe:
           httpGet:
-            path: {{ .Values.app.pod.healthCheckPath }}
+            path: /readyz
             port: {{ .Values.app.pod.port }}
           timeoutSeconds: 10
           initialDelaySeconds: 15
           successThreshold: 2
-        {{ end }}
+          periodSeconds: 10
+        {{- end }}
         resources:
           requests:
             memory: {{ .Values.app.resources.requests.memory }}
@@ -148,4 +153,4 @@ spec:
           - -R
           - /fluent-bit/etc/parsers.conf
       restartPolicy: Always
-status: { }
+status: {}
