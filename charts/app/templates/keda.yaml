@@ -5,7 +5,7 @@ metadata:
 spec:
   scaleTargetRef:
     name: {{ .Values.app.service.name }}-webapp
-  minReplicaCount: 5
+  minReplicaCount: 7
   maxReplicaCount: 15
   pollingInterval: 30
   cooldownPeriod: 180
