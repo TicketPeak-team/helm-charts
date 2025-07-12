@@ -1,37 +1,37 @@
-app:
-  volume_id:
-  is_network_service: false
-  command:
-  pod:
-    initialCount: 3
-    port:
-    healthCheckPath:
-  service:
-    name:
-    protocol: TCP
-    port:
-  resources:
-    requests:
-      memory: "256Mi"
-      cpu: "125m"
-    limits:
-      memory: "256Mi"
-      cpu: "125m"
-  secretName:
-  database_secret_names_to_use:
+# helm-charts/charts/app/values.yaml   ← commit this in the *staging* branch
+stack_name: ticketpeak-app-staging
 
 image:
-  name:
-  tag:
-  url:
+  url: 149536470129.dkr.ecr.us-east-1.amazonaws.com
+  name: ticketpeak
+  tag: staging                # argocd-image-updater will still bump this
+
+app:
+  is_network_service: true
+  volume_id:
+  command: []
+  pod:
+    initialCount: 1
+    port: 8080                # <─ probes & service use this
+  service:
+    name: ticketpeak-app-staging
+    protocol: TCP
+    port: 8080
+  resources:
+    requests:
+      memory: "1Gi"
+      cpu:    "500m"
+    limits:
+      memory: "4Gi"
+      cpu:    "1000m"
+  secretName: ticketpeak-app-staging
+  database_secret_names_to_use: []
 
 iam:
-  service_account_role: ""
-  service_account_name: ""
+  service_account_role: arn:aws:iam::149536470129:role/ticketpeak-app-staging
+  service_account_name: ticketpeak-app-staging
 
-stack_name: ""
-
-env_bucket_name: ""
+env_bucket_name: 149536470129-ticketpeak-env
 
 efs:
-  file_system_id: ""
+  file_system_id: fs-03419841abe2eed65
