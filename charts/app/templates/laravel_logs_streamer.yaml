@@ -23,13 +23,6 @@ spec:
         - name: efs
           persistentVolumeClaim:
             claimName: efs-pv-{{ .Release.Namespace }}
-      nodeSelector:
-        ticketpeak/node_type: {{ .Release.Namespace }}
-      tolerations:
-        - key: "ticketpeak/node_type"
-          operator: "Equal"
-          value: "{{ .Release.Namespace }}"
-          effect: "NoSchedule"
       containers:
       - name: fluent-bit-laravel-log-streamer
         image: amazon/aws-for-fluent-bit:latest
