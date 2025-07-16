@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: {{ .Values.app.service.name }}-webapp
 spec:
+  revisionHistoryLimit: 3
   replicas: {{ .Values.app.pod.initialCount }}
   progressDeadlineSeconds: 600
   selector:
