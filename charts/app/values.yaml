@@ -4,8 +4,9 @@ app:
   command:
   pod:
     initialCount: 3
-    port:
-    healthCheckPath: /healthz
+    port: 8080
+    livenessPath: /livez
+    readinessPath: /readyz
   service:
     name:
     protocol: TCP
