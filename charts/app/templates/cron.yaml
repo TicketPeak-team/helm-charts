@@ -22,13 +22,6 @@ spec:
         - name: efs
           persistentVolumeClaim:
             claimName: efs-pv-{{ .Release.Namespace }}
-      nodeSelector:
-        ticketpeak/node_type: cron-{{ .Release.Namespace }}
-      tolerations:
-        - key: "ticketpeak/node_type"
-          operator: "Equal"
-          value: "cron-{{ .Release.Namespace }}"
-          effect: "NoSchedule"
       containers:
         - name: {{ .Values.app.service.name }}-cron
           image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
