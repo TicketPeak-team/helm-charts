@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: {{ .Values.app.service.name }}-cron
 spec:
+  revisionHistoryLimit: 3
   replicas: 1
   progressDeadlineSeconds: 600
   selector:
