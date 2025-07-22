@@ -64,23 +64,23 @@ spec:
         ports:
           - containerPort: {{ .Values.app.pod.port }}
         {{ if .Values.app.is_network_service }}
-        livenessprobe:
-          httpget:
-            path: {{ .values.app.pod.livenesspath }}
-            port: {{ .values.app.pod.port }}
-          initialdelayseconds: 15
-          periodseconds: 10
-          timeoutseconds: 5
-          failurethreshold: 3
-        readinessprobe:
-          httpget:
-            path: {{ .values.app.pod.readinesspath }}
-            port: {{ .values.app.pod.port }}
-          initialdelayseconds: 15
-          periodseconds: 10
-          timeoutseconds: 5
-          successthreshold: 1
-          failurethreshold: 3
+        livenessProbe:
+          httpGet:
+            path: {{ .Values.app.pod.livenessPath }}
+            port: {{ .Values.app.pod.port }}
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: {{ .Values.app.pod.readinessPath }}
+            port: {{ .Values.app.pod.port }}
+          initialDelaySeconds: 15
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
         {{ end }}
         resources:
           requests:
