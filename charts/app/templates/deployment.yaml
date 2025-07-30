@@ -48,6 +48,13 @@ spec:
         - name: parsers
           configMap:
             name: fluent-bit-parsers
+        - name: aws-iam-token
+          projected:
+            sources:
+              - serviceAccountToken:
+                  audience: sts.amazonaws.com
+                  expirationSeconds: 86400
+                  path: token
       containers:
       - name: {{ .Values.app.service.name }}-webapp
         image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
@@ -56,6 +63,9 @@ spec:
             mountPath: /var/www/html/storage
           - name: apache-logs
             mountPath: /var/log/apache
+          - name: aws-iam-token
+            mountPath: /var/run/secrets/eks.amazonaws.com/serviceaccount
+            readOnly: true
         imagePullPolicy: Always
         command:
           - "/bin/bash"
