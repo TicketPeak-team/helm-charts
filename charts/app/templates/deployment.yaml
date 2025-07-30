@@ -82,18 +82,20 @@ spec:
           httpGet:
             path: /livez
             port: {{ .Values.app.pod.port }}
-          timeoutSeconds: 10
-          initialDelaySeconds: 15
+          initialDelaySeconds: 45
+          timeoutSeconds: 5
           periodSeconds: 10
+          failureThreshold: 5
         # Readiness probe hits /readyz
         readinessProbe:
           httpGet:
             path: /readyz
             port: {{ .Values.app.pod.port }}
-          timeoutSeconds: 10
-          initialDelaySeconds: 15
-          successThreshold: 2
+          initialDelaySeconds: 45
+          timeoutSeconds: 5
           periodSeconds: 10
+          successThreshold: 1
+          failureThreshold: 5
         {{- end }}
         resources:
           requests:
