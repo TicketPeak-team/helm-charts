@@ -1,38 +1,38 @@
+stack_name: ""
+
+image:
+  url: 149536470129.dkr.ecr.us-east-1.amazonaws.com
+  name: ticketpeak
+  tag: production
+
 app:
+  is_network_service: true
   volume_id:
-  is_network_service: false
-  command:
+  command: []
   pod:
     initialCount: 7
     port: 8080
     livenessPath: /livez
     readinessPath: /readyz
   service:
-    name:
+    name: ticketpeak-app-production
     protocol: TCP
-    port:
+    port: 8080
   resources:
     requests:
-      memory: "256Mi"
-      cpu: "125m"
+      memory: "1Gi"
+      cpu: "500m"
     limits:
-      memory: "256Mi"
-      cpu: "125m"
-  secretName:
-  database_secret_names_to_use:
-
-image:
-  name:
-  tag:
-  url:
+      memory: "6Gi"
+      cpu: "2000m"
+  secretName: ticketpeak-app-production
+  database_secret_names_to_use: []
 
 iam:
-  service_account_role: ""
-  service_account_name: ""
+  service_account_role: arn:aws:iam::149536470129:role/ticketpeak-app-production
+  service_account_name: ticketpeak-app-production
 
-stack_name: ""
-
-env_bucket_name: ""
+env_bucket_name: 149536470129-ticketpeak-env
 
 efs:
-  file_system_id: ""
+  file_system_id: fs-0890123efbef63eb1
