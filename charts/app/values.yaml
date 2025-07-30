@@ -3,7 +3,7 @@ app:
   is_network_service: false
   command:
   pod:
-    initialCount: 3
+    initialCount: 7
     port: 8080
     livenessPath: /livez
     readinessPath: /readyz
