@@ -11,7 +11,7 @@ app:
   volume_id:
   command: []
   pod:
-    initialCount: 1
+    initialCount: 3
     port: 8080                # <─ probes & service use this
   service:
     name: ticketpeak-app-staging
