@@ -44,6 +44,15 @@ spec:
           - tail
           - -p
           - path=/var/www/html/storage/logs/laravel.log
+          # parse the line as JSON so fields are top-level in CloudWatch
+          - -F
+          - parser
+          - -p
+          - key_name=log
+          - -p
+          - parser=json
+          - -p
+          - reserve_data=true
           - -p
           - tag=laravel.log
           - -p
