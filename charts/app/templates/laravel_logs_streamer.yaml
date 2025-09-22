@@ -45,6 +45,10 @@ spec:
           - -p
           - path=/var/www/html/storage/logs/laravel.log
           - -p
+          - refresh_interval=5
+          - -p
+          - inotify_watcher=false
+          - -p
           - tag=laravel.log
           # parse the line as JSON so fields are top-level in CloudWatch
           - -F
@@ -52,15 +56,11 @@ spec:
           - -p
           - Match=laravel.log
           - -p
-          - key_name=log
+          - Key_Name=log
           - -p
-          - parser=json
+          - Parser=json
           - -p
-          - reserve_data=true
-          - -p
-          - refresh_interval=5
-          - -p
-          - inotify_watcher=false
+          - Reserve_Data=true
           - -o
           - cloudwatch_logs
           - -p
