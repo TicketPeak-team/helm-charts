@@ -53,6 +53,14 @@ spec:
           - -p
           - path=/var/www/html/storage/logs/laravel.log
           - -p
+          - DB=/var/www/html/storage/logs/.fluent-bit-laravel-log.db
+          - -p
+          - DB.sync=Normal
+          - -p
+          - DB.locking=true
+          - -p
+          - read_from_head=false
+          - -p
           - refresh_interval=5
           - -p
           - inotify_watcher=false
