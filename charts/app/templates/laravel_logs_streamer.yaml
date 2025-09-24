@@ -51,17 +51,25 @@ spec:
           - -i
           - tail
           - -p
-          - path=/var/www/html/storage/logs/laravel.log
+          - path=/var/www/html/storage/logs/laravel_json.log
+          - -p
+          - DB=/var/www/html/storage/logs/.fluent-bit-laravel-json-log.db
+          - -p
+          - DB.sync=Normal
+          - -p
+          - DB.locking=true
+          - -p
+          - read_from_head=false
           - -p
           - refresh_interval=5
           - -p
           - inotify_watcher=false
           - -p
-          - tag=laravel.log
+          - tag=laravel_json.log
           - -F
           - parser
           - -p
-          - Match=laravel.log
+          - Match=laravel_json.log
           - -p
           - Key_Name=log
           - -p
