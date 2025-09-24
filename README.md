@@ -5,7 +5,19 @@
 helm template charts/app -f charts/app/values.yaml
 ```
 
-## kubernets pods
+## kubernets
+
+### aws config
 ```sh
-kubectl get pods -n staging
+aws eks update-kubeconfig --region us-east-1 --name main --profile ticketpeak
+```
+
+### review pods
+```sh
+kubectl get pods -n production
+```
+
+### review pod logs
+```sh
+kubectl -n production logs ticketpeak-app-production-webapp-X-X
 ```
