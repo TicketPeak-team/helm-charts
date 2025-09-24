@@ -104,6 +104,9 @@ spec:
           limits:
             memory: {{ .Values.app.resources.limits.memory }}
             cpu: {{ .Values.app.resources.limits.cpu }}
+        env:
+          - name: LOG_CHANNEL
+            value: stderr
         envFrom:
           - secretRef:
               name: {{ .Values.app.secretName }}
