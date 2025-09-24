@@ -51,9 +51,9 @@ spec:
           - -i
           - tail
           - -p
-          - path=/var/www/html/storage/logs/laravel_json.log
+          - path=/var/www/html/storage/logs/laravel.log
           - -p
-          - DB=/var/www/html/storage/logs/.fluent-bit-laravel-json-log.db
+          - DB=/var/www/html/storage/logs/.fluent-bit-laravel-log.db
           - -p
           - DB.sync=Normal
           - -p
@@ -65,11 +65,11 @@ spec:
           - -p
           - inotify_watcher=false
           - -p
-          - tag=laravel_json.log
+          - tag=laravel.log
           - -F
           - parser
           - -p
-          - Match=laravel_json.log
+          - Match=laravel.log
           - -p
           - Key_Name=log
           - -p
