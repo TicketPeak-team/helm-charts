@@ -45,7 +45,7 @@ spec:
               cpu: 1024m
           env:
             - name: LOG_CHANNEL
-              value: stderr
+              value: single_json
           envFrom:
             - secretRef:
                 name: {{ .Values.app.secretName }}
