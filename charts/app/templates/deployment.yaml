@@ -102,6 +102,10 @@ spec:
         env:
           - name: LOG_CHANNEL
             value: single_json
+          - name: LOG_REQUEST
+            value: true
+          - name: LOG_RESPONSE
+            value: false
         envFrom:
           - secretRef:
               name: {{ .Values.app.secretName }}
