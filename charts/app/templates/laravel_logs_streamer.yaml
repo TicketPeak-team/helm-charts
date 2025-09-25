@@ -4,6 +4,9 @@ metadata:
   name: {{ .Values.app.service.name }}-log-streamer
 spec:
   revisionHistoryLimit: 3
+  strategy:
+    # so we kill current pod before starting new one and free the lock on the log file
+    type: Recreate
   replicas: 1
   progressDeadlineSeconds: 600
   selector:
