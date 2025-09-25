@@ -61,6 +61,12 @@ spec:
           - -p
           - read_from_head=false
           - -p
+          - Buffer_Chunk_Size=128k
+          - -p
+          - Buffer_Max_Size=256k
+          - -p
+          - Skip_Long_Lines=On
+          - -p
           - refresh_interval=5
           - -p
           - inotify_watcher=false
