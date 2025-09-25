@@ -35,6 +35,8 @@ spec:
         env:
           - name: AWS_REGION
             value: "us-east-1"
+          - name: REFRESH_PODS
+            value: "20250925134800"
         volumeMounts:
           - name: efs
             mountPath: /var/www/html/storage

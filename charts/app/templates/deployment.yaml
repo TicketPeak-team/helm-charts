@@ -111,8 +111,8 @@ spec:
             value: true
           - name: LOG_RESPONSE
             value: true
-          - name: FORCE_INFRA_DEPLOYMENT
-            value: "202509251205"
+          - name: REFRESH_PODS
+            value: "20250925134800"
         envFrom:
           - secretRef:
               name: {{ .Values.app.secretName }}
