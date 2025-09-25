@@ -105,7 +105,7 @@ spec:
           - name: LOG_REQUEST
             value: true
           - name: LOG_RESPONSE
-            value: false
+            value: true
         envFrom:
           - secretRef:
               name: {{ .Values.app.secretName }}
