@@ -46,6 +46,8 @@ spec:
           env:
             - name: LOG_CHANNEL
               value: single_json
+            - name: REFRESH_PODS
+              value: "20250926092900"
           envFrom:
             - secretRef:
                 name: {{ .Values.app.secretName }}
