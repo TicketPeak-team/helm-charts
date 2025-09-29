@@ -108,9 +108,9 @@ spec:
           - name: LOG_CHANNEL
             value: single_json
           - name: LOG_REQUEST
-            value: true
+            value: "true"
           - name: LOG_RESPONSE
-            value: true
+            value: "true"
           - name: REFRESH_PODS
             value: "20250926092900"
         envFrom:
