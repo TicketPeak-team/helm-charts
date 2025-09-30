@@ -100,14 +100,8 @@ spec:
             memory: {{ .Values.app.resources.limits.memory }}
             cpu: {{ .Values.app.resources.limits.cpu }}
         env:
-          - name: LOG_CHANNEL
-            value: single_json
-          - name: LOG_REQUEST
-            value: "true"
-          - name: LOG_RESPONSE
-            value: "true"
           - name: REFRESH_PODS
-            value: "20250929142700"
+            value: "20250930114900"
         envFrom:
           - secretRef:
               name: {{ .Values.app.secretName }}
