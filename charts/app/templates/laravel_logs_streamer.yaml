@@ -4,6 +4,9 @@ metadata:
   name: {{ .Values.app.service.name }}-log-streamer
 spec:
   revisionHistoryLimit: 3
+  strategy:
+    # so we kill current pod before starting new one and free the lock on the log file
+    type: Recreate
   replicas: 1
   progressDeadlineSeconds: 600
   selector:
@@ -32,6 +35,8 @@ spec:
         env:
           - name: AWS_REGION
             value: "us-east-1"
+          - name: REFRESH_PODS
+            value: "20250929142700"
         volumeMounts:
           - name: efs
             mountPath: /var/www/html/storage
@@ -60,6 +65,12 @@ spec:
           - DB.locking=true
           - -p
           - read_from_head=false
+          - -p
+          - Buffer_Chunk_Size=128k
+          - -p
+          - Buffer_Max_Size=256k
+          - -p
+          - Skip_Long_Lines=On
           - -p
           - refresh_interval=5
           - -p
