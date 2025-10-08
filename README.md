@@ -10,6 +10,7 @@ helm template charts/app -f charts/app/values.yaml
 helm package charts/app
 helm repo index packages/ --url packages --merge index.yaml
 mv packages/index.yaml index.yaml
+mv app-*.tgz packages/
 ```
 
 ## kubernets pods
