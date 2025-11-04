@@ -42,6 +42,8 @@ spec:
       volumes:
         - name: apache-logs
           emptyDir: { }
+        - name: app-env
+          emptyDir: { }
         - name: efs
           persistentVolumeClaim:
             claimName: efs-pv-{{ .Release.Namespace }}
@@ -55,6 +57,26 @@ spec:
                   audience: sts.amazonaws.com
                   expirationSeconds: 86400
                   path: token
+      initContainers:
+      - name: load-env-from-s3
+        image: amazon/aws-cli:2.15.37
+        imagePullPolicy: IfNotPresent
+        command:
+          - "/bin/bash"
+          - "-c"
+          - "aws s3 cp s3://149536470129-ticketpeak-env/{{ .Release.Namespace }}/.env /env/.env"
+        env:
+          - name: AWS_REGION
+            value: "us-east-1"
+        envFrom:
+          - secretRef:
+              name: {{ .Values.app.secretName }}
+        volumeMounts:
+          - name: app-env
+            mountPath: /env
+          - name: aws-iam-token
+            mountPath: /var/run/secrets/eks.amazonaws.com/serviceaccount
+            readOnly: true
       containers:
       - name: {{ .Values.app.service.name }}-webapp
         image: "{{ .Values.image.url }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
@@ -63,6 +85,9 @@ spec:
             mountPath: /var/www/html/storage
           - name: apache-logs
             mountPath: /var/log/apache
+          - name: app-env
+            mountPath: /var/www/html/.env
+            subPath: .env
           - name: aws-iam-token
             mountPath: /var/run/secrets/eks.amazonaws.com/serviceaccount
             readOnly: true
@@ -70,7 +95,7 @@ spec:
         command:
           - "/bin/bash"
           - "-c"
-          - "aws s3 cp s3://149536470129-ticketpeak-env/{{ .Release.Namespace }}/.env /var/www/html/.env && /var/www/html/startup.sh"
+          - "/var/www/html/startup.sh"
         ports:
           - containerPort: {{ .Values.app.pod.port }}
         {{ if .Values.app.is_network_service }}
